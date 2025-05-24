@@ -1,0 +1,6 @@
+[
+  { "name": "spade", "color": "black", "icon": "♠" },
+  { "name": "club", "color": "black", "icon": "♣" },
+  { "name": "heart", "color": "red", "icon": "♥" },
+  { "name": "diamond", "color": "red", "icon": "♦" }
+]
