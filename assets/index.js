@@ -1,174 +1,91 @@
 const fs = require("fs");
 const path = require("path");
 const { createCanvas, CanvasRenderingContext2D, loadImage } = require("canvas");
+const YAML = require("yaml");
+const deckYAML = fs.readFileSync("deck.yaml", "utf-8");
 const {
-  background,
-  height,
-  fontFamily,
-  ranks,
-  suites,
-} = require("./deck.json");
+  background: BACKGROUND,
+  fontFamily: FONT_FAMILY,
+  ranks: RANKS,
+  suites: SUITS,
+} = YAML.parse(deckYAML);
 
-const width = height * (2 / 3);
-const gridSize = width * 0.1;
-const font = `${gridSize}px ${fontFamily}`;
+const SCALE = 8;
+const CELL = 8 * SCALE;
+const HALF_CELL = CELL / 2;
+const GRID = 2;
+const VERTICAL_GRID = GRID * 3;
+const HORIZONTAL_GRID = GRID * 2;
+const HEIGHT = VERTICAL_GRID * CELL;
+const WIDTH = HORIZONTAL_GRID * CELL;
 
+const FONT = `${CELL}px "${FONT_FAMILY}"`;
 const FLIP = true;
 const NO_FLIP = false;
 
-const HORIZONTAL_CENTER = width / 2;
-const VERTICAL_CENTER = height / 2;
-const TOP = gridSize * 2;
-const TOP_CORNER = gridSize;
-const LEFT_CORNER = gridSize;
-const LEFT = gridSize * 3;
-const BOTTOM = height - TOP;
-const BOTTOM_CORNER = height - TOP_CORNER;
-const RIGHT = width - LEFT;
-const RIGHT_CORNER = width - LEFT_CORNER;
-const MID_TOP = TOP + (BOTTOM - TOP) / 3;
-const MID_BOTTOM = BOTTOM - (BOTTOM - TOP) / 3;
-const TOP_MID = TOP + (MID_TOP - TOP) / 2;
-const BOTTOM_MID = BOTTOM - (BOTTOM - MID_BOTTOM) / 2;
+const TOP = CELL;
+const TOP_CORNER = 0;
+const BOTTOM = HEIGHT - CELL * 2;
+const LEFT = CELL;
+const LEFT_CORNER = 0;
+const RIGHT = WIDTH - CELL * 2;
+const RIGHT_CORNER = WIDTH - CELL;
+const MID = HEIGHT / 2;
+const CENTER = WIDTH / 2;
+const BOTTOM_CORNER = HEIGHT - CELL;
 
-const TOP_LEFT_CORNER = {
-  x: LEFT_CORNER,
-  y: TOP_CORNER,
-};
-const TOP_RIGHT_CORNER = {
-  x: RIGHT_CORNER,
-  y: TOP_CORNER,
-};
-const BOTTOM_LEFT_CORNER = {
-  x: LEFT_CORNER,
-  y: BOTTOM_CORNER,
-};
-const BOTTOM_RIGHT_CORNER = {
-  x: RIGHT_CORNER,
-  y: BOTTOM_CORNER,
-};
-const BOTTOM_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: BOTTOM,
-};
-const BOTTOM_LEFT = {
-  x: LEFT,
-  y: BOTTOM,
-};
-const BOTTOM_RIGHT = {
-  x: RIGHT,
-  y: BOTTOM,
-};
-const MID_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: VERTICAL_CENTER,
-};
-const MID_LEFT = {
-  x: LEFT,
-  y: VERTICAL_CENTER,
-};
-const MID_RIGHT = {
-  x: RIGHT,
-  y: VERTICAL_CENTER,
-};
-const TOP_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: TOP,
-};
-const TOP_LEFT = {
-  x: LEFT,
-  y: TOP,
-};
-const TOP_RIGHT = {
-  x: RIGHT,
-  y: TOP,
-};
+const TOP_LEFT_CORNER = { x: LEFT_CORNER, y: TOP_CORNER };
+const TOP_RIGHT_CORNER = { x: RIGHT_CORNER, y: TOP_CORNER };
+const TOP_LEFT = { x: LEFT, y: TOP };
+const TOP_RIGHT = { x: RIGHT, y: TOP };
+const TOP_CENTER = { x: CENTER, y: TOP };
+const MID_LEFT_CORNER = { x: LEFT_CORNER, y: MID };
+const MID_RIGHT_CORNER = { x: RIGHT_CORNER, y: MID };
+const MID_LEFT = { x: LEFT, y: MID };
+const MID_RIGHT = { x: RIGHT, y: MID };
+const MID_CENTER = { x: CENTER, y: MID };
+const BOTTOM_LEFT_CORNER = { x: LEFT_CORNER, y: BOTTOM_CORNER };
+const BOTTOM_RIGHT_CORNER = { x: RIGHT_CORNER, y: BOTTOM_CORNER };
+const BOTTOM_LEFT = { x: LEFT, y: BOTTOM };
+const BOTTOM_RIGHT = { x: RIGHT, y: BOTTOM };
+const BOTTOM_CENTER = { x: CENTER, y: BOTTOM };
 
-const TOP_MID_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: TOP_MID,
-};
-
-const BOTTOM_MID_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: BOTTOM_MID,
-};
-
-const MID_TOP_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: MID_TOP,
-};
-
-const MID_TOP_LEFT = {
-  x: LEFT,
-  y: MID_TOP,
-};
-
-const MID_TOP_RIGHT = {
-  x: RIGHT,
-  y: MID_TOP,
-};
-
-const MID_BOTTOM_CENTER = {
-  x: HORIZONTAL_CENTER,
-  y: MID_BOTTOM,
-};
-
-const MID_BOTTOM_LEFT = {
-  x: LEFT,
-  y: MID_BOTTOM,
-};
-
-const MID_BOTTOM_RIGHT = {
-  x: RIGHT,
-  y: MID_BOTTOM,
-};
-
-const X = {
-  START: 0,
-  END: width,
-  LEFT,
-  LEFT_CORNER,
-  RIGHT,
-  RIGHT_CORNER,
-};
-
-const Y = {
-  START: 0,
-  END: height,
-  BOTTOM,
-  BOTTOM_CORNER,
-  BOTTOM_MID,
-  MID_BOTTOM,
-  MID_TOP,
-  TOP,
-  TOP_CORNER,
-  TOP_MID,
-};
-
-const COORDINATES = {
-  BOTTOM_CENTER,
-  BOTTOM_LEFT,
-  BOTTOM_LEFT_CORNER,
-  BOTTOM_MID_CENTER,
-  BOTTOM_RIGHT,
-  BOTTOM_RIGHT_CORNER,
-  MID_BOTTOM_CENTER,
-  MID_BOTTOM_LEFT,
-  MID_BOTTOM_RIGHT,
-  MID_CENTER,
+const POSITION = {
+  TOP_LEFT_CORNER,
+  TOP_RIGHT_CORNER,
+  TOP_LEFT,
+  TOP_RIGHT,
+  TOP_CENTER,
+  MID_LEFT_CORNER,
+  MID_RIGHT_CORNER,
   MID_LEFT,
   MID_RIGHT,
-  MID_TOP_CENTER,
-  MID_TOP_LEFT,
-  MID_TOP_RIGHT,
-  TOP_CENTER,
-  TOP_LEFT,
-  TOP_LEFT_CORNER,
-  TOP_MID_CENTER,
-  TOP_RIGHT,
-  TOP_RIGHT_CORNER,
+  MID_CENTER,
+  BOTTOM_LEFT_CORNER,
+  BOTTOM_RIGHT_CORNER,
+  BOTTOM_LEFT,
+  BOTTOM_RIGHT,
+  BOTTOM_CENTER,
 };
+
+/**
+ * @param {CanvasRenderingContext2D} ctx
+ */
+async function drawIndex(ctx, rank, suit, position, flip) {
+  const x = getCenter(position.x);
+  const y = getCenter(position.y);
+  ctx.save();
+  ctx.font = FONT;
+  ctx.translate(x, y);
+  if (flip) {
+    ctx.rotate(Math.PI);
+  }
+  ctx.fillText(rank, 0, 0, CELL);
+  ctx.translate((CELL * -1) / 4, CELL / 1.5);
+  // HACK: I have no idea
+  ctx.drawImage(suit.icon, 0, 0, CELL / 2, CELL / 2);
+  ctx.restore();
+}
 
 function isEmpty(value) {
   return typeof value === "undefined";
@@ -182,34 +99,22 @@ function getRank(i) {
   return i.toString();
 }
 
-/**
- * @param {CanvasRenderingContext2D} ctx
- */
-function drawIndex(ctx, rank, suite, position, flip) {
-  ctx.save();
-  ctx.font = font;
-  ctx.translate(position.x, position.y);
-  if (flip) {
-    ctx.rotate(Math.PI);
-  }
-  ctx.fillText(rank, 0, 0, gridSize);
-  ctx.translate(0, gridSize * 1.25);
-  ctx.fillText(suite.icon, 0, 0, gridSize);
-  ctx.restore();
+function getCenter(v) {
+  return v + HALF_CELL;
 }
 
 /**
  * @param {CanvasRenderingContext2D} ctx
  */
-async function drawIndeces(ctx, rank, suite) {
-  drawIndex(ctx, rank, suite, TOP_LEFT_CORNER, NO_FLIP);
-  drawIndex(ctx, rank, suite, BOTTOM_RIGHT_CORNER, FLIP);
+async function drawIndeces(ctx, rank, suit) {
+  await drawIndex(ctx, rank, suit, TOP_LEFT_CORNER, NO_FLIP);
+  await drawIndex(ctx, rank, suit, BOTTOM_RIGHT_CORNER, FLIP);
 }
 
 /**
  * @param {CanvasRenderingContext2D} ctx
  */
-async function drawPipImage(ctx, pip, suite) {
+async function drawPipImage(ctx, pip, suit) {
   const left = X[pip.bounds.left];
   const top = Y[pip.bounds.top];
   const right = X[pip.bounds.right];
@@ -222,54 +127,69 @@ async function drawPipImage(ctx, pip, suite) {
   const height = bottom - top;
 
   ctx.save();
-  const image = await loadImage(`${suite.color}.png`);
+  const image = await loadImage(`${suit.color}.png`);
   ctx.drawImage(image, left, top, width, height);
   ctx.restore();
 }
 
-async function drawPipSuite(ctx, pip, suite, position) {
+async function drawPipSuit(ctx, pip, suit, position) {
+  const x = position.x - HALF_CELL;
+  const y = position.y;
+
   ctx.save();
-  ctx.translate(position.x, position.y);
+  ctx.translate(x, y);
   ctx.rotate(Math.PI * (pip.rotate / 180));
-  ctx.font = [`${pip.scale * gridSize}px`, fontFamily].join(" ");
-  ctx.fillText(suite.icon, 0, 0);
+  ctx.drawImage(suit.icon, 0, 0, CELL, CELL);
   ctx.restore();
 }
 
-async function drawPip(ctx, pip, suite) {
-  if (pip.type === "IMAGE") return drawPipImage(ctx, pip, suite);
-  const position = COORDINATES[pip.position];
+async function drawPip(ctx, pip, suit) {
+  if (pip.type === "IMAGE") return; // drawPipImage(ctx, pip, suit);
+  const position = POSITION[pip.position];
   if (!position) return;
-  return drawPipSuite(ctx, pip, suite, position);
+  return drawPipSuit(ctx, pip, suit, position);
 }
 
 /**
  * @param {CanvasRenderingContext2D} ctx
  */
-async function drawPips(ctx, rank, suite) {
-  const rankInfo = ranks.find((r) => r.rank === rank);
+async function drawPips(ctx, rank, suit) {
+  const rankInfo = RANKS.find((r) => r.rank === rank);
   if (!rankInfo) return;
-  for (const pip of rankInfo.pips) await drawPip(ctx, pip, suite);
+  for (const pip of rankInfo.pips) await drawPip(ctx, pip, suit);
 }
 
 async function main() {
-  for (const suite of suites)
+  for (const suit of SUITS) {
+    suit.icon = await loadImage(`suits/${suit.name}.png`);
+
     for (let i = 2; i <= 14; i++) {
       const rank = getRank(i);
-      const canvas = createCanvas(width, height);
+      const canvas = createCanvas(WIDTH, HEIGHT);
       const ctx = canvas.getContext("2d");
       ctx.imageSmoothingEnabled = false;
       ctx.imageSmoothingQuality = "low";
-      ctx.fillStyle = background;
-      ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = suite.color;
+      ctx.font = FONT;
+      ctx.fillStyle = BACKGROUND;
+      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+      ctx.fillStyle = suit.color;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      ctx.save();
+      for (let column = 0; column <= HORIZONTAL_GRID; column++) {
+        for (let row = 0; row <= VERTICAL_GRID; row++) {
+          const x = column * CELL;
+          const y = row * CELL;
 
-      await drawIndeces(ctx, rank, suite);
-      await drawPips(ctx, rank, suite);
+          ctx.save();
+          ctx.font = FONT;
+          ctx.strokeRect(x, y, CELL, CELL);
+          ctx.restore();
+        }
+      }
+
+      await drawIndeces(ctx, rank, suit);
+      await drawPips(ctx, rank, suit);
 
       const pngBuffer = canvas.toBuffer("image/png", {
         compressionLevel: 3,
@@ -279,12 +199,13 @@ async function main() {
       const filePath = path.join(
         __dirname,
         "cards",
-        `${suite.name}_${i.toString().padStart(2, "0")}.png`,
+        `${suit.name}_${i.toString().padStart(2, "0")}.png`,
       );
 
       fs.writeFileSync(filePath, pngBuffer);
-      console.log(filePath);
+      // console.log(filePath);
     }
+  }
 }
 
 main().catch((error) => console.error(error));
