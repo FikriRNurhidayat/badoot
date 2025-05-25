@@ -1,0 +1,446 @@
+canvas:
+  fontFamily: Jersey 15
+  background: "#e0d3c8"
+  foreground: "#56546e"
+  column: 8
+  row: 12
+  height: 300
+  width: 200
+  mr: 0.5
+indeces:
+  - flip: false
+    rank:
+      x: 1
+      y: 1
+    suit:
+      x: 1
+      y: 2
+  - flip: true
+    rank:
+      x: 1
+      y: 1
+    suit:
+      x: 1
+      y: 2
+suites:
+  - name: spade
+    color: "#56546e"
+  - name: club
+    color: "#56546e"
+  - name: heart
+    color: "#f05b5b"
+  - name: diamond
+    color: "#f05b5b"
+ranks:
+  - name: A
+    pips:
+      - coordinate:
+          x: 4.5
+          y: 6.5
+        scale: 5
+        rotate: 0
+  - name: "2"
+    pips:
+      - coordinate:
+          x: 4.5
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 2
+        scale: 2
+        flip: true
+  - name: "3"
+    pips:
+      - coordinate:
+          x: 4.5
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 2
+        scale: 2
+        flip: true
+  - name: "4"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+  - name: "5"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+  - name: "6"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+  - name: "7"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 6.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+  - name: "8"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: true
+  - name: "8"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: true
+  - name: "9"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 3.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: true
+  - name: "10"
+    pips:
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 4.5
+          y: 3.5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: false
+      - coordinate:
+          x: 3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 2
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 3
+          y: 5
+        scale: 2
+        flip: true
+      - coordinate:
+          x: -3
+          y: 5
+        scale: 2
+        flip: true
+      - coordinate:
+          x: 4.5
+          y: 3.5
+        scale: 2
+        flip: true
+  - name: "J"
+    pips:
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: false
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: true
+    face:
+      file: "suits/jack.png"
+      bounds:
+        - x: 2
+          y: 2
+        - x: -2
+          y: 2
+        - x: -2
+          y: 2
+        - x: 2
+          y: -2
+        - x: -2
+          y: -2
+  - name: "Q"
+    pips:
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: false
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: true
+    face:
+      file: "suits/queen.png"
+      bounds:
+        - x: 2
+          y: 2
+        - x: -2
+          y: 2
+        - x: -2
+          y: 2
+        - x: 2
+          y: -2
+        - x: -2
+          y: -2
+  - name: "K"
+    pips:
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: false
+      - coordinate:
+          x: -2
+          y: 3
+        scale: 1.5
+        flip: true
+    face:
+      file: "suits/king.png"
+      bounds:
+        - x: 2
+          y: 2
+        - x: -2
+          y: 2
+        - x: -2
+          y: 2
+        - x: 2
+          y: -2
+        - x: -2
+          y: -2
